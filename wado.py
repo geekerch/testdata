@@ -55,13 +55,11 @@ def parser_dicom(url, i):
         image_2d = ds.pixel_array.astype(float)
         print(ds.PhotometricInterpretation)
         # Rescaling grey scale between 0-255
-        if ds.PhotometricInterpretation == 'MONOCHROME1' :
+        if ds.PhotometricInterpretation == 'MONOCHROME2' :
             image_2d_scaled = np.maximum(image_2d, 0) / image_2d.max() * 255.0
         else :
             image_2d_scaled = (1 - (np.maximum(image_2d, 0) / image_2d.max())) * 255.0
-        image_2d_scaled = np.maximum(image_2d, 0) / image_2d.max() * 255.0
-      
-            # Convert to uint
+        # Convert to uint
         image_2d_scaled = np.uint8(image_2d_scaled)
 
         # Write the PNG file
@@ -71,6 +69,7 @@ def parser_dicom(url, i):
             w.write(png_file, image_2d_scaled)
             print(i)
             i += 1
+        break
             
 url = 'http://10.221.252.156/QidoRS/QidoRS.svc/bipacsFIR/studies?PatientID=fe0e7c09-207e-49a1-9d58-c0858e7eb26a'
 
